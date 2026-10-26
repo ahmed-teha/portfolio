@@ -1,756 +1,3007 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AgriProfit - Farm Financial Tracker & Annual Profitability Analytics for Farmers">
-  <title>AgriProfit | Farm Financial Tracker & Enterprise Profit Analyzer</title>
+  <meta name="description" content="Ahmed Taha - Full-Stack Web Developer Portfolio. Clean, high-performance web applications, responsive UI/UX, and robust back-end systems.">
+  <meta name="keywords" content="Web Developer, Frontend Developer, Full Stack, JavaScript, PHP, MySQL, Node.js, Portfolio, Afaan Oromoo, Amharic">
+  <meta name="author" content="Ahmed Taha">
+  <title>Ahmed Taha | Full-Stack Web Developer</title>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Plus Jakarta Sans, JetBrains Mono & Noto Sans Ethiopic for Amharic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-          },
-          colors: {
-            agri: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              500: '#22c55e',
-              600: '#16a34a',
-              700: '#15803d',
-              800: '#166534',
-              900: '#14532d',
-              950: '#052e16',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Ethiopic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* Daylight High Contrast Outdoor Mode overrides */
-    .high-contrast {
-      filter: contrast(115%);
-    }
-    .high-contrast body {
-      background-color: #f8fafc !important;
-      color: #020617 !important;
-    }
-    .high-contrast .card-panel {
-      border: 2px solid #0f172a !important;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25) !important;
-    }
-    .high-contrast input, .high-contrast select, .high-contrast textarea {
-      border: 2px solid #0f172a !important;
-      color: #020617 !important;
-      font-weight: 700 !important;
+    /* ==========================================================================
+       CSS Variables & Theme Tokens
+       ========================================================================== */
+    :root {
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-eth: 'Noto Sans Ethiopic', 'Nyala', 'Abyssinica SIL', sans-serif;
+      
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --container-max: 1200px;
     }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    /* Dark Mode (Default) */
+    html[data-theme="dark"] {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(26, 36, 56, 0.9);
+      --bg-nav: rgba(11, 15, 25, 0.85);
+      --bg-input: rgba(15, 23, 42, 0.6);
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.1);
+      --border-focus: #6366f1;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --accent-primary: #6366f1;
+      --accent-secondary: #06b6d4;
+      --accent-tertiary: #10b981;
+      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+      --accent-gradient-text: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
+      
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 35px -5px rgba(99, 102, 241, 0.35);
+
+      --badge-bg: rgba(99, 102, 241, 0.12);
+      --badge-text: #a5b4fc;
+      --badge-border: rgba(99, 102, 241, 0.25);
+    }
+
+    /* Light Mode */
+    html[data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: rgba(255, 255, 255, 1);
+      --bg-nav: rgba(248, 250, 252, 0.88);
+      --bg-input: #ffffff;
+      
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-card: rgba(0, 0, 0, 0.08);
+      --border-focus: #4f46e5;
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      
+      --accent-primary: #4f46e5;
+      --accent-secondary: #0284c7;
+      --accent-tertiary: #059669;
+      --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0284c7 100%);
+      --accent-gradient-text: linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #0369a1 100%);
+      
+      --accent-glow: rgba(79, 70, 229, 0.15);
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 35px -5px rgba(79, 70, 229, 0.2);
+
+      --badge-bg: rgba(79, 70, 229, 0.08);
+      --badge-text: #4338ca;
+      --badge-border: rgba(79, 70, 229, 0.2);
+    }
+
+    /* Amharic Font Integration */
+    html[lang="am"] {
+      font-family: var(--font-eth), var(--font-main);
+    }
+    html[lang="am"] button,
+    html[lang="am"] input,
+    html[lang="am"] textarea,
+    html[lang="am"] select {
+      font-family: var(--font-eth), var(--font-main);
+    }
+
+    /* ==========================================================================
+       Reset & Base Styles
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    body {
+      font-family: inherit;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color var(--transition-normal), color var(--transition-normal);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Background Ambient Gradients */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(120px);
+      opacity: 0.18;
+      transition: opacity var(--transition-slow);
+    }
+    body::before {
+      top: -100px;
+      left: -100px;
+      background: var(--accent-primary);
+    }
+    body::after {
+      top: 40%;
+      right: -150px;
+      background: var(--accent-secondary);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    button, input, textarea {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      padding: 5.5rem 0;
+      position: relative;
+    }
+
+    /* ==========================================================================
+       Typography & Section Headers
+       ========================================================================== */
+    .gradient-text {
+      background: var(--accent-gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3.5rem auto;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      border: 1px solid var(--badge-border);
+      border-radius: var(--radius-full);
+      margin-bottom: 0.85rem;
+    }
+
+    .section-title {
+      font-size: 2.35rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-primary);
+      margin-bottom: 0.9rem;
+      letter-spacing: -0.025em;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ==========================================================================
+       Buttons & Interactive Badges
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.65rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #ffffff !important;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 25px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       Navigation Bar
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: var(--bg-nav);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background-color var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      font-size: 0.925rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--accent-gradient);
+      border-radius: 2px;
+      transition: width var(--transition-normal);
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Language Switcher Component */
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      gap: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.775rem;
+      font-weight: 700;
+      padding: 0.4rem 0.65rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      line-height: 1;
+      font-family: inherit;
+    }
+
+    .lang-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .lang-btn.active {
+      background: var(--accent-gradient);
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    /* Theme Toggle Switch */
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-focus);
+      color: var(--accent-primary);
+      transform: rotate(15deg);
+    }
+
+    .theme-toggle-btn svg {
+      width: 19px;
+      height: 19px;
+      transition: transform var(--transition-normal);
+    }
+
+    /* Mobile Hamburger */
+    .mobile-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-toggle svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ==========================================================================
+       Hero Section
+       ========================================================================== */
+    .hero-section {
+      padding: 6.5rem 0 4.5rem 0;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      font-size: 0.825rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: var(--accent-tertiary);
+      position: relative;
+    }
+
+    .status-dot::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-tertiary);
+      animation: pulseDot 2s infinite ease-out;
+    }
+
+    @keyframes pulseDot {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .hero-title {
+      font-size: 3.35rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-role-wrapper {
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 1.35rem;
+      min-height: 2.2rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-role-typed {
+      color: var(--accent-primary);
+      position: relative;
+      font-weight: 700;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      vertical-align: middle;
+      background-color: var(--accent-primary);
+      margin-left: 3px;
+      animation: blinkCursor 0.9s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-bio {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-socials {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .hero-socials-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .social-link:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-focus);
+      color: var(--accent-primary);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px var(--accent-glow);
+    }
+
+    .social-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* Hero Visual Card / Interactive Code Frame */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .code-card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+      overflow: hidden;
+      font-family: var(--font-mono);
+      position: relative;
+      transition: transform var(--transition-normal);
+    }
+
+    .code-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .code-card-header {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .code-card-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .code-card-body {
+      padding: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .code-line {
+      display: flex;
+      margin-bottom: 0.25rem;
+    }
+
+    .code-num {
+      width: 2rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      user-select: none;
+    }
+
+    .token-keyword { color: #c084fc; font-weight: 600; }
+    .token-var { color: #60a5fa; }
+    .token-prop { color: #38bdf8; }
+    .token-string { color: #34d399; }
+    .token-func { color: #f472b6; }
+    .token-comment { color: #64748b; font-style: italic; }
+
+    /* Floating Metric Badges around Hero */
+    .floating-metric {
+      position: absolute;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1.1rem;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 2;
+      animation: floatWidget 6s ease-in-out infinite;
+    }
+
+    .floating-metric-1 {
+      bottom: -15px;
+      left: -20px;
+    }
+
+    .floating-metric-2 {
+      top: 25px;
+      right: -20px;
+      animation-delay: -3s;
+    }
+
+    @keyframes floatWidget {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .metric-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--badge-bg);
+      color: var(--accent-primary);
+    }
+
+    .metric-icon-wrap svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .metric-text strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .metric-text span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       About Section
+       ========================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .about-image-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      padding: 2.2rem;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+    }
+
+    .about-avatar-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .about-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 24px;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #fff;
+      box-shadow: 0 10px 25px var(--accent-glow);
+      flex-shrink: 0;
+    }
+
+    .about-identity h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .about-identity p {
+      font-size: 0.925rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .about-philosophy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .philosophy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+    }
+
+    .philosophy-icon {
+      color: var(--accent-primary);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .philosophy-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .about-text h3 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-focus);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ==========================================================================
+       Skills Section
+       ========================================================================== */
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .skill-category-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skill-category-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .skill-cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-cat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--badge-bg);
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .skill-cat-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .skill-cat-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .skill-items-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .skill-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      transition: all var(--transition-fast);
+    }
+
+    .skill-badge:hover {
+      border-color: var(--border-focus);
+      transform: translateX(3px);
+    }
+
+    .skill-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .skill-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+    }
+
+    .skill-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .skill-name {
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .skill-level-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-family: var(--font-mono);
+    }
+
+    /* ==========================================================================
+       Projects Section
+       ========================================================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      transition: all var(--transition-normal);
+      position: relative;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-md), 0 0 25px -5px var(--accent-glow);
+    }
+
+    .project-preview {
+      position: relative;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Synthetic project mockup UI for clean, zero-broken-link preview */
+    .mockup-ui {
+      width: 86%;
+      height: 80%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform var(--transition-normal);
+    }
+
+    .project-card:hover .mockup-ui {
+      transform: scale(1.04);
+    }
+
+    .mockup-header {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.4rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mockup-header span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .mockup-body {
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .mockup-chart-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 48px;
+      margin-top: auto;
+      padding-bottom: 4px;
+    }
+
+    .mockup-bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      background: var(--accent-primary);
+      opacity: 0.8;
+    }
+
+    .mockup-skeleton {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border-subtle);
+    }
+
+    .project-card-content {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .project-category {
+      font-size: 0.775rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-primary);
+      margin-bottom: 0.45rem;
+    }
+
+    .project-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .project-description {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.35rem;
+      flex: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tag {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      padding: 0.25rem 0.65rem;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      border: 1px solid var(--badge-border);
+      border-radius: var(--radius-full);
+    }
+
+    .project-links {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1.25rem;
+      margin-top: auto;
+    }
+
+    .project-link-btn {
+      flex: 1;
+      font-size: 0.85rem;
+    }
+
+    /* ==========================================================================
+       Contact Section
+       ========================================================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .contact-info-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-info-text {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .contact-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-card-item {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      padding: 1.1rem 1.35rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .contact-card-item:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+      transform: translateX(4px);
+    }
+
+    .contact-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--badge-bg);
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-card-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .contact-card-meta {
+      flex: 1;
+    }
+
+    .contact-card-label {
+      font-size: 0.775rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .contact-card-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .copy-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 7px 11px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--border-focus);
+      color: var(--accent-primary);
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Floating Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-focus);
+      box-shadow: var(--shadow-md), 0 0 25px var(--accent-glow);
+      padding: 0.9rem 1.4rem;
+      border-radius: var(--radius-md);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.925rem;
+      font-weight: 600;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Contact Form */
+    .contact-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      position: relative;
+    }
+
+    .form-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.15rem;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--badge-bg);
+    }
+
+    .form-textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-error {
+      font-size: 0.775rem;
+      color: #ef4444;
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .form-group.has-error .form-input,
+    .form-group.has-error .form-textarea {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+
+    .form-group.has-error .form-error {
+      display: flex;
+    }
+
+    /* Form Status Banner */
+    .form-status {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-size: 0.925rem;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .form-status.success {
+      display: flex;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       Footer
+       ========================================================================== */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      padding: 4rem 0 2.5rem 0;
+      margin-top: auto;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .footer-brand {
+      max-width: 380px;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 0.65rem;
+    }
+
+    .footer-desc {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-link {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      transition: color var(--transition-fast);
+    }
+
+    .footer-link:hover {
+      color: var(--accent-primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .back-to-top:hover {
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       Responsive Breakpoints
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .hero-visual {
+        order: -1;
+      }
+      .skills-categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 4rem 0;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+      }
+      .nav-menu {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--bg-nav);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+        transform: translateY(-150%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all var(--transition-normal);
+        box-shadow: var(--shadow-md);
+      }
+      .nav-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+      .mobile-toggle {
+        display: flex;
+      }
+      .skills-categories {
+        grid-template-columns: 1fr;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .floating-metric {
+        display: none;
+      }
+      .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 1.25rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .hero-actions .btn {
+        width: 100%;
+      }
+      .lang-btn {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.725rem;
+      }
+    }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+<body>
 
-  <section id="authScreen" class="min-h-screen bg-slate-100 dark:bg-slate-950">
-    <div class="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.85fr)]">
-      <aside class="hidden bg-emerald-950 px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between xl:px-16">
-        <a href="/" class="flex items-center gap-3 text-white no-underline">
-          <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </span>
-          <span class="text-xl font-black">AgriProfit</span>
-        </a>
-        <div class="max-w-xl py-16">
-          <p class="text-xs font-black uppercase tracking-[0.18em] text-emerald-300" data-i18n="authEyebrow">Farm management</p>
-          <h1 class="mt-4 text-4xl font-black leading-tight" data-i18n="authHeadline">Your farm work, in one place.</h1>
-          <p class="mt-5 max-w-lg text-base leading-7 text-emerald-100" data-i18n="authDescription">Sign in to review farm performance, record field inputs and harvests, and plan the season ahead.</p>
+  <!-- ========================================================================
+       Header / Sticky Navigation Bar
+       ======================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="nav-logo" aria-label="Ahmed Taha Portfolio Home">
+        <span class="nav-logo-icon">&lt;/&gt;</span>
+        <span>Ahmed<span class="gradient-text">.dev</span></span>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Links -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link active" data-i18n="nav_home">Home</a>
+        <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+        <a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a>
+        <a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a>
+        <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
+      </nav>
+
+      <!-- Nav Action Buttons: Trilingual Selector, Theme Toggle & Mobile Menu -->
+      <div class="nav-actions">
+        <!-- Language Switcher: English, Afaan Oromoo, Amharic -->
+        <div class="lang-switch" role="group" aria-label="Language Selector">
+          <button type="button" class="lang-btn active" data-lang="en" title="English">EN</button>
+          <button type="button" class="lang-btn" data-lang="om" title="Afaan Oromoo">OM</button>
+          <button type="button" class="lang-btn" data-lang="am" title="አማርኛ (Amharic)">አማ</button>
         </div>
-        <p class="text-xs text-emerald-300" data-i18n="authSecureNote">Accounts are protected with encrypted passwords and secure sessions.</p>
-      </aside>
 
-      <div class="flex min-h-screen flex-col px-5 py-6 sm:px-10 lg:px-12">
-        <div class="flex justify-end">
-          <div class="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900" aria-label="Language">
-            <button type="button" data-lang-btn="en" class="lang-btn rounded-lg bg-white px-2 py-1.5 text-[11px] font-black text-slate-800 shadow-sm dark:bg-slate-800 dark:text-white">EN</button>
-            <button type="button" data-lang-btn="om" class="lang-btn rounded-lg px-2 py-1.5 text-[11px] font-black text-slate-600 dark:text-slate-300">AF</button>
-            <button type="button" data-lang-btn="am" class="lang-btn rounded-lg px-2 py-1.5 text-[11px] font-black text-slate-600 dark:text-slate-300">AM</button>
-          </div>
-        </div>
-
-        <div class="flex flex-1 items-center justify-center py-10">
-          <div class="w-full max-w-md">
-            <div class="mb-8 lg:hidden">
-              <p class="text-lg font-black text-emerald-800 dark:text-emerald-400">AgriProfit</p>
-            </div>
-            <h2 id="authFormTitle" class="text-3xl font-black text-slate-950 dark:text-white" data-i18n="authLoginTitle">Sign in to your farm</h2>
-            <p id="authFormDescription" class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="authLoginDescription">Use your email and password to continue.</p>
-
-            <p id="authMessage" class="mt-5 hidden rounded-lg border border-rose-300 bg-rose-50 px-3 py-2.5 text-sm font-semibold text-rose-900 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200" role="alert" aria-live="polite"></p>
-
-            <form id="loginForm" class="mt-7 space-y-5">
-              <div>
-                <label for="loginEmail" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authEmailLabel">Email address</label>
-                <input id="loginEmail" name="email" type="email" required maxlength="255" autocomplete="email" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-              </div>
-              <div>
-                <label for="loginPassword" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authPasswordLabel">Password</label>
-                <input id="loginPassword" name="password" type="password" required maxlength="128" autocomplete="current-password" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-              </div>
-              <button type="submit" class="w-full rounded-lg bg-emerald-700 px-4 py-3 font-extrabold text-white hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2" data-i18n="authSignInButton">Sign in</button>
-            </form>
-
-            <form id="registerForm" class="mt-7 hidden space-y-4">
-              <div>
-                <label for="registerName" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authNameLabel">Full name</label>
-                <input id="registerName" name="fullName" type="text" required maxlength="150" autocomplete="name" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-              </div>
-              <div>
-                <label for="registerEmail" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authEmailLabel">Email address</label>
-                <input id="registerEmail" name="email" type="email" required maxlength="255" autocomplete="email" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-              </div>
-              <div>
-                <label for="registerPassword" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authPasswordLabel">Password</label>
-                <input id="registerPassword" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-                <p class="mt-1.5 text-xs leading-5 text-slate-500 dark:text-slate-400" data-i18n="authPasswordHint">Use at least 12 characters.</p>
-              </div>
-              <div>
-                <label for="registerPasswordConfirm" class="mb-1.5 block text-sm font-bold text-slate-800 dark:text-slate-200" data-i18n="authConfirmPasswordLabel">Confirm password</label>
-                <input id="registerPasswordConfirm" name="passwordConfirm" type="password" required minlength="12" maxlength="128" autocomplete="new-password" class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-              </div>
-              <button type="submit" class="w-full rounded-lg bg-emerald-700 px-4 py-3 font-extrabold text-white hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2" data-i18n="authCreateButton">Create account</button>
-            </form>
-
-            <p class="mt-6 text-sm text-slate-600 dark:text-slate-300">
-              <span id="authSwitchPrompt" data-i18n="authNeedAccount">New to AgriProfit?</span>
-              <button id="authSwitchButton" type="button" class="ml-1 font-extrabold text-emerald-800 underline decoration-emerald-500 underline-offset-4 dark:text-emerald-300" data-i18n="authCreateAccount">Create an account</button>
-            </p>
-            <p class="mt-8 border-t border-slate-200 pt-4 text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400" data-i18n="authLocalDataNote">Farm entries are currently stored in this browser and are not synced between devices.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div id="appShell" class="hidden">
-
-  <!-- TOP APP HEADER -->
-  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-      
-      <!-- Brand & Farm Selector -->
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Dark and Light Mode" title="Toggle Theme">
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-xl font-black tracking-tight text-slate-950 dark:text-white">AgriProfit</h1>
-            <span class="px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">PRO</span>
-          </div>
-          <p class="text-xs font-semibold text-slate-500 dark:text-slate-400" data-i18n="farmSubtitle">GreenValley Family Farm (1,450 Acres)</p>
-        </div>
-      </div>
-
-      <!-- Quick Controls: Year Selector, Language, & Outdoor Contrast Toggle -->
-      <div class="flex items-center gap-2 sm:gap-3">
-
-        <!-- Language Switcher -->
-        <div class="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
-          <button type="button" data-lang-btn="en" class="lang-btn px-2 py-1.5 text-[11px] font-black rounded-lg bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-sm">EN</button>
-          <button type="button" data-lang-btn="om" class="lang-btn px-2 py-1.5 text-[11px] font-black rounded-lg text-slate-600 dark:text-slate-300">AF</button>
-          <button type="button" data-lang-btn="am" class="lang-btn px-2 py-1.5 text-[11px] font-black rounded-lg text-slate-600 dark:text-slate-300">AM</button>
-        </div>
-        
-        <!-- Year Selector -->
-        <div class="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
-          <label for="yearSelector" class="sr-only" data-i18n="cropYear">Crop Year</label>
-          <select id="yearSelector" class="bg-transparent text-sm font-black text-slate-800 dark:text-slate-100 py-1.5 px-3 rounded-lg focus:outline-none cursor-pointer">
-            <option value="2026">Season 2026</option>
-            <option value="2025">Season 2025</option>
-            <option value="2024">Season 2024</option>
-          </select>
-        </div>
-
-        <!-- Daylight High-Contrast Button (Crucial for farmers outdoor in field sunlight) -->
-        <button id="toggleContrastBtn" title="Toggle Daylight High-Contrast Mode for Field Visibility" 
-                class="flex items-center gap-1.5 py-2 px-3 sm:px-4 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 border-2 border-amber-400 text-xs font-black transition-all shadow-sm active:scale-95">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          <span class="hidden sm:inline" data-i18n="daylightMode">Daylight Mode</span>
+          <!-- Moon Icon (shown in light mode, hidden via JS) -->
+          <svg class="moon-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
         </button>
 
-        <!-- CSV Export -->
-        <button id="exportCsvBtn" title="Export Ledger to CSV"
-                class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span class="hidden md:inline" data-i18n="exportCsv">Export CSV</span>
+        <button id="mobileToggleBtn" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
         </button>
-
-        <span id="currentUserName" class="hidden max-w-32 truncate text-xs font-bold text-slate-600 dark:text-slate-300 xl:inline"></span>
-        <button id="logoutBtn" type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-xs font-extrabold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800" data-i18n="authSignOut">Sign out</button>
-
       </div>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main>
+    <!-- ======================================================================
+         Hero Section
+         ====================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-status">
+            <span class="status-dot"></span>
+            <span data-i18n="hero_status">Available for new projects & full-time roles</span>
+          </div>
 
-    <nav class="flex gap-2 border-b border-slate-200 dark:border-slate-800" aria-label="Main navigation">
-      <button type="button" data-view-target="dashboard" aria-current="page" class="view-tab border-b-2 border-emerald-600 px-4 py-3 text-sm font-extrabold text-emerald-700 dark:text-emerald-400" data-i18n="dashboardTab">Farm Dashboard</button>
-      <button type="button" data-view-target="guide" class="view-tab border-b-2 border-transparent px-4 py-3 text-sm font-extrabold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white" data-i18n="agricultureGuideTab">Agriculture Guide</button>
-    </nav>
+          <h1 class="hero-title" data-i18n-html="hero_title">
+            Crafting Scalable, High-Impact <span class="gradient-text">Web Experiences</span>
+          </h1>
 
-    <div id="dashboardView" class="space-y-6">
+          <div class="hero-role-wrapper">
+            <span id="roleTyped" class="hero-role-typed">Full-Stack Web Developer</span>
+            <span class="typing-cursor"></span>
+          </div>
 
-    <!-- KPI CARDS (PROMPT 2 & 4: Total Annual Income, Expenses, Net Profit, Profit Margin) -->
-    <section aria-label="Financial Overview Key Performance Indicators">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <!-- Total Income Card -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="totalAnnualIncome">Total Annual Income</span>
-            <span class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-            </span>
-          </div>
-          <div class="mt-4">
-            <div id="kpiTotalIncome" class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">$0.00</div>
-            <div class="mt-2 flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-              <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span data-i18n="incomeHint">Crop sales, leases & USDA subsidies</span>
-            </div>
-          </div>
-        </div>
+          <p class="hero-bio" data-i18n-html="hero_bio">
+            Hi, I'm <strong>Ahmed Taha</strong>. I specialize in building accessible, blazing-fast, and visually captivating web applications from architecture to deployment using modern JavaScript, PHP, and scalable database systems.
+          </p>
 
-        <!-- Total Expenses Card -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="totalAnnualExpenses">Total Annual Expenses</span>
-            <span class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"/></svg>
-            </span>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span data-i18n="hero_btn_projects">View Projects</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+            <a href="#contact" class="btn btn-outline">
+              <span data-i18n="hero_btn_contact">Contact Me</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            </a>
           </div>
-          <div class="mt-4">
-            <div id="kpiTotalExpenses" class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">$0.00</div>
-            <div class="mt-2 flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-              <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span>
-              <span data-i18n="expensesHint">Inputs, fuel, labor & overhead</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Net Annual Profit Card -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="netAnnualProfit">Net Annual Profit</span>
-            <span id="kpiProfitBadge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-              <span data-i18n="surplus">Surplus</span>
-            </span>
-          </div>
-          <div class="mt-4">
-            <div id="kpiNetProfit" class="text-3xl md:text-4xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">$0.00</div>
-            <div class="mt-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-              <span data-i18n="netFarmIncomeHint">Net operating farm income (Pre-tax)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Profit Margin % Card -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="profitMargin">Profit Margin</span>
-            <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase" data-i18n="target25">Target: >25%</span>
-          </div>
-          <div class="mt-4">
-            <div id="kpiProfitMargin" class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">0.0%</div>
-            <!-- Progress Bar -->
-            <div class="mt-3 w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-              <div id="kpiMarginProgress" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
+          <div class="hero-socials">
+            <span class="hero-socials-label" data-i18n="hero_connect">Connect:</span>
+            <!-- GitHub -->
+            <a href="https://github.com/ahmed-teha" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub Profile (ahmed-teha)" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+            </a>
+            <!-- Telegram -->
+            <a href="https://t.me/beyondimaginer32" target="_blank" rel="noopener noreferrer" class="social-link" title="Telegram (@beyondimaginer32)" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn Profile" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.78 1.75 1.75-.78 1.76-1.75 1.76m1.4 9.74v-8.37H5.06v8.37h2.8z"/>
+              </svg>
+            </a>
+            <!-- Email -->
+            <a href="mailto:beyondimaginer@gmail.com" class="social-link" title="Send Email" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </a>
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- EXECUTIVE SUMMARY AND RECOMMENDATIONS -->
-    <section class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div>
-          <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400" data-i18n="farmPerformanceOverview">Farm performance overview</p>
-          <h2 id="seasonHealthStatus" class="mt-2 text-2xl md:text-3xl font-black text-slate-900 dark:text-white" data-i18n="strongSeasonalPerformance">Strong seasonal performance</h2>
-        </div>
-
-        <div class="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300">
-          <span class="inline-flex items-center gap-2 rounded-full bg-emerald-100 dark:bg-emerald-950/60 px-3 py-1.5 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            Operating health
-          </span>
-        </div>
-      </div>
-
-      <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/70 p-4 border border-slate-200 dark:border-slate-700">
-          <p class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="seasonValue">Season value</p>
-          <div id="seasonSummaryValue" class="mt-2 text-2xl font-black text-slate-900 dark:text-white">0.0%</div>
-        </div>
-
-        <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/70 p-4 border border-slate-200 dark:border-slate-700">
-          <p class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="strategyFocus">Strategy focus</p>
-          <div id="focusRecommendation" class="mt-2 text-base font-bold text-slate-800 dark:text-slate-100" data-i18n="reviewingProductionMix">Reviewing production mix</div>
-        </div>
-
-        <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/70 p-4 border border-slate-200 dark:border-slate-700">
-          <p class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="cashFlowNoteTitle">Cash flow note</p>
-          <div id="cashFlowNote" class="mt-2 text-base font-bold text-slate-800 dark:text-slate-100" data-i18n="stableOperation">Stable operation</div>
-        </div>
-      </div>
-
-      <div class="mt-5">
-        <div class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-          <span data-i18n="targetProgress">Target progress</span>
-          <span id="seasonTargetLabel">0% of target</span>
-        </div>
-        <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-          <div id="seasonTargetProgress" class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-500" style="width: 0%"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AGRICULTURE OPERATIONS & FIELD PLANNING -->
-    <section class="space-y-6">
-      <div class="flex items-center justify-between gap-3">
-        <div>
-          <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400" data-i18n="farmOperations">Farm operations</p>
-          <h2 class="mt-2 text-2xl font-black text-slate-900 dark:text-white" data-i18n="agriculturePlanningTools">Agriculture planning tools</h2>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="yieldForecast">Yield Forecast</span>
-            <span class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m-8 5h8M13 17h8M3 7h.01M3 12h.01M3 17h.01"/></svg>
-            </span>
-          </div>
-          <div id="fieldYieldForecast" class="mt-4 text-2xl font-black text-slate-900 dark:text-white">Add yield data</div>
-          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" data-i18n="yieldForecastDesc">Projection based on harvest output entries</p>
-        </div>
-
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="irrigationPlan">Irrigation Plan</span>
-            <span class="p-2 rounded-xl bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20M5 8c0-2.5 3-4 7-4s7 1.5 7 4-3 4-7 4-7 1.5-7 4 3 4 7 4 7-1.5 7-4"/></svg>
-            </span>
-          </div>
-          <div id="waterPlan" class="mt-4 text-2xl font-black text-slate-900 dark:text-white">Monitor moisture</div>
-          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" data-i18n="waterUseTiming">Water use and timing check</p>
-        </div>
-
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="inputEfficiency">Input Efficiency</span>
-            <span class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </span>
-          </div>
-          <div id="inputEfficiency" class="mt-4 text-2xl font-black text-slate-900 dark:text-white">Review costs</div>
-          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" data-i18n="costToOutputEfficiency">Cost-to-output efficiency</p>
-        </div>
-
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="riskAlert">Risk Alert</span>
-            <span class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-            </span>
-          </div>
-          <div id="riskAlert" class="mt-4 text-2xl font-black text-slate-900 dark:text-white">No major issues</div>
-          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" data-i18n="operationalRiskSummary">Operational risk summary</p>
-        </div>
-      </div>
-
-      <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-extrabold text-base text-slate-900 dark:text-white" data-i18n="fieldActivityChecklist">Field activity checklist</h3>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400" data-i18n="seasonPlan">Season plan</span>
-        </div>
-        <ul id="fieldChecklistList" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-700 dark:text-slate-200">
-          <li class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Review soil nutrient status</li>
-          <li class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Check irrigation timing</li>
-          <li class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Verify input stock levels</li>
-          <li class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Monitor crop protection needs</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- HIGHLIGHTED INSIGHTS BANNER (Prompt 3: Most profitable crop & highest expense category) -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      
-      <!-- Top Crop Banner -->
-      <div class="card-panel bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 rounded-2xl p-5 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-        </div>
-        <div class="min-w-0 flex-1">
-          <span class="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300" data-i18n="mostProfitableCrop">Most Profitable Crop</span>
-          <h3 id="insightTopCrop" class="text-xl font-black text-slate-900 dark:text-white truncate">Corn</h3>
-          <p id="insightTopCropStats" class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 mt-0.5">Calculating enterprise yield...</p>
-        </div>
-      </div>
-
-      <!-- Top Expense Category Banner -->
-      <div class="card-panel bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 rounded-2xl p-5 border border-amber-200 dark:border-amber-800/60 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-md">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-        </div>
-        <div class="min-w-0 flex-1">
-          <span class="text-xs font-black uppercase tracking-wider text-amber-800 dark:text-amber-300" data-i18n="highestExpenseCategory">Highest Expense Category</span>
-          <h3 id="insightTopExpense" class="text-xl font-black text-slate-900 dark:text-white truncate">Fertilizer & Lime</h3>
-          <p id="insightTopExpenseStats" class="text-xs font-semibold text-amber-700 dark:text-amber-400 mt-0.5">Aggregating costs...</p>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- MAIN TWO-COLUMN WORKFLOW: Form (Right on desktop) & Analytics/Ledger (Left) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      
-      <!-- LEFT COLUMN: Chart + Crop Profitability + Ledger (7 cols) -->
-      <div class="lg:col-span-7 space-y-6">
-
-        <!-- MONTHLY INCOME VS EXPENSE CHART (Prompt 2 & 4) -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-extrabold text-base text-slate-900 dark:text-white" data-i18n="cashFlowChartTitle">Cash Flow: Monthly Income vs. Expenses</h3>
-              <p class="text-xs font-medium text-slate-500 dark:text-slate-400" data-i18n="cashFlowChartSubtitle">Annual monthly comparison for season trends & harvest peaks</p>
-            </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" data-i18n="monthly">Monthly</span>
-          </div>
-          <!-- Chart Canvas -->
-          <div class="h-64 sm:h-72 w-full relative">
-            <canvas id="monthlyChart"></canvas>
-          </div>
-        </div>
-
-        <!-- PROFIT MARGINS PER CROP ENTERPRISE (Prompt 2 & 3) -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-extrabold text-base text-slate-900 dark:text-white" data-i18n="enterpriseMarginsTitle">Profit Margins per Enterprise / Crop</h3>
-              <p class="text-xs font-medium text-slate-500 dark:text-slate-400" data-i18n="enterpriseMarginsSubtitle">Revenue, directly allocated expenses, and return margin</p>
-            </div>
-            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400" data-i18n="enterpriseMarginsLabel">Enterprise Margins</span>
-          </div>
-          <div id="cropBreakdownList" class="space-y-3">
-            <!-- Dynamically populated by app.js -->
-          </div>
-        </div>
-
-        <!-- EXPENSE CATEGORY DISTRIBUTION -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-extrabold text-base text-slate-900 dark:text-white" data-i18n="expenseDistributionTitle">Expense Distribution by Category</h3>
-            <span class="text-xs text-slate-400 font-semibold" data-i18n="expenseDistributionSubtitle">% of Total Operating Costs</span>
-          </div>
-          <div id="expenseCategoryList" class="space-y-2.5 pt-2">
-            <!-- Dynamically populated by app.js -->
-          </div>
-        </div>
-
-        <!-- RECENT TRANSACTIONS / LEDGER STREAM -->
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div class="p-5 border-b border-slate-200/80 dark:border-slate-800 space-y-3">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-extrabold text-base text-slate-900 dark:text-white" data-i18n="transactionLedger">Transaction Ledger</h3>
-                <p class="text-xs font-medium text-slate-500 dark:text-slate-400" data-i18n="transactionLedgerSubtitle">Financial entries for active season</p>
+        <!-- Interactive Hero Code Window -->
+        <div class="hero-visual">
+          <div class="code-card">
+            <div class="code-card-header">
+              <div class="window-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
               </div>
-              <span id="txCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">0 entries</span>
+              <span class="code-card-title">developer.js</span>
+              <span></span>
+            </div>
+            <div class="code-card-body">
+              <div class="code-line"><span class="code-num">1</span><span class="token-keyword">const</span> <span class="token-var">developer</span> = {</div>
+              <div class="code-line"><span class="code-num">2</span>&nbsp;&nbsp;<span class="token-prop">name</span>: <span class="token-string">'Ahmed Taha'</span>,</div>
+              <div class="code-line"><span class="code-num">3</span>&nbsp;&nbsp;<span class="token-prop">github</span>: <span class="token-string">'ahmed-teha'</span>,</div>
+              <div class="code-line"><span class="code-num">4</span>&nbsp;&nbsp;<span class="token-prop">telegram</span>: <span class="token-string">'@beyondimaginer32'</span>,</div>
+              <div class="code-line"><span class="code-num">5</span>&nbsp;&nbsp;<span class="token-prop">skills</span>: [<span class="token-string">'JavaScript'</span>, <span class="token-string">'PHP'</span>, <span class="token-string">'MySQL'</span>, <span class="token-string">'Node.js'</span>],</div>
+              <div class="code-line"><span class="code-num">6</span>&nbsp;&nbsp;<span class="token-func">hireable</span>: () =&gt; <span class="token-keyword">true</span></div>
+              <div class="code-line"><span class="code-num">7</span>};</div>
+              <div class="code-line"><span class="code-num">8</span></div>
+              <div class="code-line"><span class="code-num">9</span><span class="token-comment">// Ready to collaborate on your next vision</span></div>
+              <div class="code-line"><span class="code-num">10</span><span class="token-var">developer</span>.<span class="token-func">deliverExcellence</span>();</div>
+            </div>
+          </div>
+
+          <!-- Floating Badges -->
+          <div class="floating-metric floating-metric-1">
+            <div class="metric-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="metric-text">
+              <strong data-i18n="hero_badge_code">100%</strong>
+              <span data-i18n="hero_badge_code_sub">Clean Code &amp; Tests</span>
+            </div>
+          </div>
+
+          <div class="floating-metric floating-metric-2">
+            <div class="metric-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
+            <div class="metric-text">
+              <strong data-i18n="hero_badge_exp">5+ Years</strong>
+              <span data-i18n="hero_badge_exp_sub">Web Development</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         About Section
+         ====================================================================== -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" data-i18n="about_tag">About Me</span>
+          <h2 class="section-title" data-i18n="about_title">Driven by Quality &amp; User Experience</h2>
+          <p class="section-subtitle" data-i18n="about_subtitle">Bridging the gap between creative visual design and robust software engineering.</p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Left: Personal / Philosophy Card -->
+          <div class="about-image-card">
+            <div class="about-avatar-wrapper">
+              <div class="about-avatar" aria-hidden="true">
+                👨‍💻
+              </div>
+              <div class="about-identity">
+                <h3>Ahmed Taha</h3>
+                <p data-i18n="about_role">Full-Stack Web Engineer</p>
+                <span style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="about_loc">Based in Waliso, Oromia, Ethiopia / Remote</span>
+              </div>
             </div>
 
-            <!-- Search and Filter Bar -->
-            <div class="flex flex-col sm:flex-row gap-2">
-              <div class="relative flex-1">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <div class="about-philosophy-list">
+              <div class="philosophy-item">
+                <span class="philosophy-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </span>
-                <input type="text" id="searchQuery" data-i18n-placeholder="searchPlaceholder" placeholder="Search category, crop, note..." 
-                       class="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <span data-i18n-html="about_philo_1"><strong>Performance Obsessed:</strong> Prioritizing sub-second loads, lean bundles, and 60 FPS interactions.</span>
               </div>
-              <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
-                <button class="filter-pill active-filter px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 dark:text-slate-300" data-filter="all" data-i18n="allFilter">All</button>
-                <button class="filter-pill px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 dark:text-slate-300" data-filter="income" data-i18n="incomeFilter">Income</button>
-                <button class="filter-pill px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 dark:text-slate-300" data-filter="expense" data-i18n="expenseFilter">Expenses</button>
+              <div class="philosophy-item">
+                <span class="philosophy-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span data-i18n-html="about_philo_2"><strong>Responsive &amp; Accessible:</strong> Crafting semantic, WCAG-compliant designs for every device size.</span>
+              </div>
+              <div class="philosophy-item">
+                <span class="philosophy-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span data-i18n-html="about_philo_3"><strong>Maintainable Systems:</strong> Writing documented, tested, and scalable code that teams love to maintain.</span>
               </div>
             </div>
           </div>
 
-          <!-- Transaction List -->
-          <div id="transactionList" class="divide-y divide-slate-100 dark:divide-slate-800 max-h-96 overflow-y-auto">
-            <!-- Dynamically populated by app.js -->
+          <!-- Right: Bio Description & Stats -->
+          <div class="about-text">
+            <h3 data-i18n="about_h3">Turning complex logic into seamless digital products.</h3>
+            <p data-i18n="about_p1">
+              I have spent over 5 years developing modern web applications, working with startups and established enterprises to translate intricate business needs into fluid interfaces. My experience covers everything from creating dynamic, interactive single-page front-ends to architecting reliable RESTful APIs and optimized database schemas.
+            </p>
+            <p data-i18n="about_p2">
+              When I'm not writing code or analyzing web performance metrics, I contribute to open-source developer tooling and mentor aspiring developers in core web fundamentals.
+            </p>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">5+</div>
+                <div class="stat-label" data-i18n="about_stat1_label">Years Exp.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">40+</div>
+                <div class="stat-label" data-i18n="about_stat2_label">Projects Built</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label" data-i18n="about_stat3_label">Satisfaction</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <a href="#contact" class="btn btn-primary btn-sm">
+                <span data-i18n="about_btn_work">Let's Work Together</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
           </div>
-
-          <div class="p-3 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500">
-            <span>Real-time local storage sync</span>
-            <button id="resetDataBtn" class="text-rose-600 hover:text-rose-700 font-bold hover:underline" data-i18n="resetDemoData">Reset Demo Data</button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT COLUMN: Transaction Entry Form (5 cols, Sticky on desktop) -->
-      <div class="lg:col-span-5 sticky top-24">
-        <div class="card-panel bg-white dark:bg-slate-900 rounded-3xl p-6 border-2 border-slate-200 dark:border-slate-800 shadow-md">
-          
-          <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <h2 class="text-xl font-black text-slate-950 dark:text-white" data-i18n="recordTransaction">Record Transaction</h2>
-              <p class="text-xs text-slate-500 font-medium" data-i18n="recordTransactionSubtitle">Instantly updates your farm profit metrics</p>
-            </div>
-            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" title="Live dynamic updates"></span>
-          </div>
-
-          <form id="transactionForm" class="mt-5 space-y-4">
-            
-            <!-- Transaction Type Toggle (Segmented Control) -->
-            <div>
-              <label class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2" data-i18n="entryType">Entry Type</label>
-              <div class="flex gap-2">
-                <label id="labelTypeIncome" class="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider rounded-xl border-2 border-emerald-600 bg-emerald-600 text-white cursor-pointer shadow-sm transition-all">
-                  <input type="radio" name="txType" value="income" checked class="hidden">
-                  <span data-i18n="incomeLabel">+ Income</span>
-                </label>
-                <label id="labelTypeExpense" class="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider rounded-xl border-2 border-slate-300 dark:border-slate-700 bg-transparent text-slate-600 dark:text-slate-300 cursor-pointer hover:border-rose-400 transition-all">
-                  <input type="radio" name="txType" value="expense" class="hidden">
-                  <span data-i18n="expenseLabel">- Expense</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Amount Input (Large for Field Operation) -->
-            <div>
-              <label for="txAmount" class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" data-i18n="amountLabel">
-                Amount (ETB) *
-              </label>
-              <div class="relative rounded-2xl shadow-inner">
-                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-black text-xl">ETB</span>
-                <input type="number" id="txAmount" step="0.01" min="0.01" required placeholder="0.00"
-                       class="w-full pl-16 pr-4 py-3.5 text-2xl font-black rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20">
-              </div>
-            </div>
-
-            <!-- Category Selection (Dynamic depending on Income vs Expense) -->
-            <div>
-              <label for="txCategory" class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" data-i18n="categoryLabel">
-                Category *
-              </label>
-              <select id="txCategory" required
-                      class="w-full py-3 px-3.5 text-sm font-bold rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                <!-- Dynamically populated -->
-              </select>
-            </div>
-
-            <!-- Enterprise / Crop Assignment -->
-            <div>
-              <label for="txCrop" class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" data-i18n="cropAllocationLabel">
-                Crop or Enterprise Allocation
-              </label>
-              <select id="txCrop"
-                      class="w-full py-3 px-3.5 text-sm font-bold rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                <!-- Dynamically populated -->
-              </select>
-              <p class="text-[11px] text-slate-400 mt-1" data-i18n="cropAllocationHint">Leave as Overhead if cost applies across the entire farm</p>
-            </div>
-
-            <!-- Agricultural Input Requirement -->
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-3.5 space-y-3">
-              <div class="flex items-center justify-between gap-2">
-                <label class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300" data-i18n="inputRequirementLabel">Input Requirement</label>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Optional</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <select id="txInputType" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                  <option value="" data-i18n="inputTypeOption">Type</option>
-                  <option value="Seed" data-i18n="seedOption">Seed</option>
-                  <option value="Fertilizer" data-i18n="fertilizerOption">Fertilizer</option>
-                  <option value="Pesticide" data-i18n="pesticideOption">Pesticide</option>
-                  <option value="Water" data-i18n="waterOption">Water</option>
-                  <option value="Labor" data-i18n="laborOption">Labor</option>
-                  <option value="Fuel" data-i18n="fuelOption">Fuel</option>
-                  <option value="Other" data-i18n="otherOption">Other</option>
-                </select>
-                <input type="number" id="txInputQty" min="0" step="0.01" data-i18n-placeholder="quantityPlaceholder" placeholder="Qty" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500">
-                <select id="txInputUnit" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                  <option value="" data-i18n="unitOption">Unit</option>
-                  <option value="kg">kg</option>
-                  <option value="bags" data-i18n="bagsOption">bags</option>
-                  <option value="liters" data-i18n="litersOption">liters</option>
-                  <option value="hours" data-i18n="hoursOption">hours</option>
-                  <option value="acres" data-i18n="acresOption">acres</option>
-                  <option value="tons" data-i18n="tonsOption">tons</option>
-                  <option value="pieces" data-i18n="piecesOption">pieces</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Agricultural Output / Production -->
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-3.5 space-y-3">
-              <div class="flex items-center justify-between gap-2">
-                <label class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300" data-i18n="outputYieldLabel">Output / Yield</label>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Optional</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <select id="txOutputType" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                  <option value="" data-i18n="cropOption">Crop</option>
-                  <option value="Corn">Corn</option>
-                  <option value="Soybeans">Soybeans</option>
-                  <option value="Wheat">Wheat</option>
-                  <option value="Rice">Rice</option>
-                  <option value="Vegetables" data-i18n="vegetablesOption">Vegetables</option>
-                  <option value="Fruits" data-i18n="fruitsOption">Fruits</option>
-                  <option value="Livestock" data-i18n="livestockOption">Livestock</option>
-                </select>
-                <input type="number" id="txOutputQty" min="0" step="0.01" data-i18n-placeholder="yieldPlaceholder" placeholder="Yield" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500">
-                <select id="txOutputUnit" class="w-full py-2.5 px-3 text-sm font-bold rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                  <option value="" data-i18n="unitOption">Unit</option>
-                  <option value="kg">kg</option>
-                  <option value="tons" data-i18n="tonsOption">tons</option>
-                  <option value="bags" data-i18n="bagsOption">bags</option>
-                  <option value="quintals" data-i18n="quintalsOption">quintals</option>
-                  <option value="heads" data-i18n="headsOption">heads</option>
-                  <option value="liters" data-i18n="litersOption">liters</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Transaction Date -->
-            <div>
-              <label for="txDate" class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" data-i18n="transactionDateLabel">
-                Transaction Date *
-              </label>
-              <input type="date" id="txDate" required
-                     class="w-full py-3 px-3.5 text-sm font-bold rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-            </div>
-
-            <!-- Notes / Payee / Buyer -->
-            <div>
-              <label for="txNotes" class="block text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" data-i18n="notesLabel">
-                Vendor / Buyer / Description
-              </label>
-              <input type="text" id="txNotes" placeholder="e.g., Cargill Terminal, Pioneer Seed Co, Off-Road Diesel"
-                     data-i18n-placeholder="notesPlaceholder" class="w-full py-3 px-3.5 text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500">
-            </div>
-
-            <!-- Dynamic Live Submit Button -->
-            <button type="submit" id="submitTxBtn"
-                    class="w-full py-4 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-base uppercase tracking-wider rounded-2xl shadow-lg shadow-emerald-900/20 transition-all flex items-center justify-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-              <span data-i18n="recordIncomeEntry">Record Income Entry</span>
-            </button>
-
-          </form>
-
         </div>
       </div>
-
-    </div>
-
-    </div>
-
-    <section id="agricultureGuideView" class="hidden space-y-6" aria-labelledby="agricultureGuideTitle">
-      <header class="border-b border-slate-200 dark:border-slate-800 pb-5">
-        <p class="text-xs font-black uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400" data-i18n="guideEyebrow">Practical field reference</p>
-        <div class="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 id="agricultureGuideTitle" class="text-3xl font-black text-slate-950 dark:text-white" data-i18n="guideTitle">Agriculture in Ethiopia</h2>
-            <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="guideIntro">A practical starting point for planning crops, caring for soil and water, and keeping farm records.</p>
-          </div>
-          <button type="button" data-view-target="dashboard" class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-emerald-800">
-            <span data-i18n="openDashboard">Open farm dashboard</span>
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-          </button>
-        </div>
-      </header>
-
-      <aside class="border-l-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950 dark:bg-amber-950/30 dark:text-amber-100" data-i18n="localConditionsNote">Growing seasons and suitable crops vary by region, altitude, rainfall, and local conditions. Use this guide as general information and confirm timing with local agricultural extension workers.</aside>
-
-      <section aria-labelledby="fieldPracticesTitle">
-        <h3 id="fieldPracticesTitle" class="mb-3 text-lg font-black text-slate-900 dark:text-white" data-i18n="fieldPracticesTitle">Field practices</h3>
-        <div class="grid gap-4 md:grid-cols-2">
-          <article class="border-t-2 border-emerald-600 bg-white py-4 dark:bg-slate-900">
-            <h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="seasonPlanningTitle">Plan around the season</h4>
-            <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="seasonPlanningText">Check local rainfall forecasts and the crop calendar before choosing planting dates. Prepare seed, labor, and equipment early, and keep a backup plan for delayed or uneven rain.</p>
-          </article>
-          <article class="border-t-2 border-sky-600 bg-white py-4 dark:bg-slate-900">
-            <h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="soilSeedsTitle">Protect soil and choose seed well</h4>
-            <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="soilSeedsText">Use locally adapted, quality seed. Where practical, rotate crops, retain ground cover, add compost or other suitable organic matter, and follow soil-test or extension advice for fertilizer.</p>
-          </article>
-          <article class="border-t-2 border-cyan-600 bg-white py-4 dark:bg-slate-900">
-            <h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="waterCareTitle">Use water carefully</h4>
-            <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="waterCareText">Record irrigation dates and amounts. Reduce runoff and erosion with methods suited to the field, and prioritize water for sensitive crop stages when supplies are limited.</p>
-          </article>
-          <article class="border-t-2 border-rose-600 bg-white py-4 dark:bg-slate-900">
-            <h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="pestCareTitle">Scout for pests and disease</h4>
-            <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300" data-i18n="pestCareText">Inspect fields regularly and note where symptoms appear. Start with prevention and locally recommended integrated pest management; use registered products only as directed, with protective equipment.</p>
-          </article>
-        </div>
-      </section>
-
-      <section aria-labelledby="seasonChecklistTitle" class="border-y border-slate-200 py-5 dark:border-slate-800">
-        <h3 id="seasonChecklistTitle" class="mb-4 text-lg font-black text-slate-900 dark:text-white" data-i18n="seasonChecklistTitle">A simple season checklist</h3>
-        <ol class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <li class="flex gap-3"><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-black text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">1</span><div><h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="beforePlantingTitle">Before planting</h4><p class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300" data-i18n="beforePlantingText">Review the plan, check seed and inputs, and prepare fields and tools.</p></div></li>
-          <li class="flex gap-3"><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sm font-black text-sky-800 dark:bg-sky-950 dark:text-sky-300">2</span><div><h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="plantingTitle">Planting</h4><p class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300" data-i18n="plantingText">Use locally advised timing, spacing, and planting depth.</p></div></li>
-          <li class="flex gap-3"><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-black text-amber-800 dark:bg-amber-950 dark:text-amber-300">3</span><div><h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="growingTitle">During growth</h4><p class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300" data-i18n="growingText">Check moisture, weeds, crop health, and pest signs; record work and costs.</p></div></li>
-          <li class="flex gap-3"><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rose-100 text-sm font-black text-rose-800 dark:bg-rose-950 dark:text-rose-300">4</span><div><h4 class="font-extrabold text-slate-900 dark:text-white" data-i18n="harvestTitle">Harvest and storage</h4><p class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300" data-i18n="harvestText">Harvest at suitable maturity, dry and store produce safely, and record quantity and sales.</p></div></li>
-        </ol>
-      </section>
-
-      <section aria-labelledby="farmRecordsTitle" class="flex flex-col gap-4 border-l-4 border-emerald-600 bg-emerald-50 px-4 py-4 dark:bg-emerald-950/30 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h3 class="font-black text-emerald-950 dark:text-emerald-100" id="farmRecordsTitle" data-i18n="farmRecordsTitle">Keep records that help decisions</h3>
-          <p class="mt-1 max-w-3xl text-sm leading-6 text-emerald-900 dark:text-emerald-200" data-i18n="farmRecordsText">Track crop, field, date, input type and quantity, harvest quantity, sales, and expenses. Consistent records help compare crops and plan the next season.</p>
-        </div>
-        <button type="button" data-view-target="dashboard" class="shrink-0 rounded-lg border border-emerald-800 px-4 py-2 text-sm font-extrabold text-emerald-900 hover:bg-emerald-100 dark:border-emerald-300 dark:text-emerald-100 dark:hover:bg-emerald-900" data-i18n="backToRecords">Go to farm records</button>
-      </section>
     </section>
 
+    <!-- ======================================================================
+         Skills Section
+         ====================================================================== -->
+    <section id="skills" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" data-i18n="skills_tag">Tech Stack</span>
+          <h2 class="section-title" data-i18n="skills_title">Skills &amp; Expertise</h2>
+          <p class="section-subtitle" data-i18n="skills_subtitle">A curated toolbox of modern front-end technologies, robust back-end frameworks, and developer workflows.</p>
+        </div>
+
+        <div class="skills-categories">
+          <!-- Category 1: Front-End -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <div class="skill-cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              </div>
+              <h3 data-i18n="skills_cat_frontend">Front-End</h3>
+            </div>
+
+            <div class="skill-items-grid">
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 5.5l1.8 14.5L12 22l8.2-2L22 5.5 12 2z"/></svg>
+                  </span>
+                  <span class="skill-name">HTML5 / Semantics</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 5.5l1.8 14.5L12 22l8.2-2L22 5.5 12 2z"/></svg>
+                  </span>
+                  <span class="skill-name">CSS3 / Flex &amp; Grid</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm13.7 13.9c.7 0 1.2-.2 1.6-.6.4-.4.6-1 .6-1.7h-2.1c0 .4-.2.7-.6.7s-.6-.2-.6-.5c0-.4.3-.7 1-.9l.7-.3c1.2-.5 1.8-1.2 1.8-2.2 0-.9-.3-1.6-.9-2.1-.6-.5-1.5-.7-2.5-.7-1 0-1.8.3-2.4.8-.6.5-.9 1.3-.9 2.2h2.1c0-.4.2-.7.6-.7.4 0 .6.2.6.5 0 .3-.3.6-.9.8l-.7.3c-1.3.5-1.9 1.3-1.9 2.3 0 .9.3 1.6.9 2.1.7.5 1.6.8 2.6.8zM9 16.9h2.3V8.8H9v8.1z"/></svg>
+                  </span>
+                  <span class="skill-name">JavaScript (ES6+)</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="4" ry="10"/></svg>
+                  </span>
+                  <span class="skill-name">React / UI Components</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_proficient">Proficient</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: Back-End & Databases -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <div class="skill-cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6c0-1.66 3.58-3 8-3s8 1.34 8 3v12c0 1.66-3.58 3-8 3s-8-1.34-8-3V6Z"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+              </div>
+              <h3 data-i18n="skills_cat_backend">Back-End &amp; Data</h3>
+            </div>
+
+            <div class="skill-items-grid">
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/></svg>
+                  </span>
+                  <span class="skill-name">Node.js &amp; Express</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                  </span>
+                  <span class="skill-name">PHP (Modern 8.x)</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_proficient">Proficient</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.48 6 2s-2.13 2-6 2-6-1.48-6-2 2.13-2 6-2z"/></svg>
+                  </span>
+                  <span class="skill-name">MySQL &amp; Relational SQL</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+                  </span>
+                  <span class="skill-name">REST APIs &amp; JSON</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Tools & Architecture -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <div class="skill-cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <h3 data-i18n="skills_cat_tools">Workflow &amp; DevOps</h3>
+            </div>
+
+            <div class="skill-items-grid">
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>
+                  </span>
+                  <span class="skill-name">Git &amp; GitHub Actions</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_advanced">Advanced</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </span>
+                  <span class="skill-name">Web Performance &amp; SEO</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_proficient">Proficient</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/></svg>
+                  </span>
+                  <span class="skill-name">Figma to Code</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_proficient">Proficient</span>
+              </div>
+
+              <div class="skill-badge">
+                <div class="skill-name-wrap">
+                  <span class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  </span>
+                  <span class="skill-name">Docker &amp; Deployment</span>
+                </div>
+                <span class="skill-level-tag" data-i18n="skill_level_intermediate">Intermediate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         Projects Section
+         ====================================================================== -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" data-i18n="projects_tag">Featured Work</span>
+          <h2 class="section-title" data-i18n="projects_title">Selected Projects</h2>
+          <p class="section-subtitle" data-i18n="projects_subtitle">Real-world applications built with clean architecture, responsive layouts, and performant backends.</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project Card 1: AgriProfit Analytics -->
+          <article class="project-card">
+            <div class="project-preview">
+              <div class="mockup-ui">
+                <div class="mockup-header">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-skeleton" style="width: 60%;"></div>
+                  <div class="mockup-skeleton" style="width: 40%;"></div>
+                  <div class="mockup-chart-row">
+                    <div class="mockup-bar" style="height: 45%; background: #22c55e;"></div>
+                    <div class="mockup-bar" style="height: 70%; background: #16a34a;"></div>
+                    <div class="mockup-bar" style="height: 90%; background: #15803d;"></div>
+                    <div class="mockup-bar" style="height: 60%; background: #22c55e;"></div>
+                    <div class="mockup-bar" style="height: 85%; background: #16a34a;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card-content">
+              <span class="project-category" data-i18n="proj1_cat">Full-Stack FinTech</span>
+              <h3 class="project-title" data-i18n="proj1_title">AgriProfit Analytics</h3>
+              <p class="project-description" data-i18n="proj1_desc">
+                A high-contrast farm financial tracker and annual profitability platform with enterprise margin calculations, multi-currency support, and offline-first persistence.
+              </p>
+
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Node.js</span>
+                <span class="project-tag">MySQL</span>
+                <span class="project-tag">CSS Grid</span>
+              </div>
+
+              <div class="project-links">
+                <a href="#home" class="btn btn-outline btn-sm project-link-btn" title="Live Preview">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                  <span data-i18n="project_btn_demo">Live Demo</span>
+                </a>
+                <a href="https://github.com/ahmed-teha" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm project-link-btn" title="View Source Code">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span data-i18n="project_btn_github">GitHub</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project Card 2: DevPulse Monitor -->
+          <article class="project-card">
+            <div class="project-preview">
+              <div class="mockup-ui">
+                <div class="mockup-header">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-skeleton" style="width: 50%;"></div>
+                  <div style="display: flex; gap: 8px; margin-top: 4px;">
+                    <div class="mockup-skeleton" style="width: 45%; height: 28px; background: rgba(99, 102, 241, 0.2);"></div>
+                    <div class="mockup-skeleton" style="width: 45%; height: 28px; background: rgba(6, 182, 212, 0.2);"></div>
+                  </div>
+                  <div class="mockup-chart-row">
+                    <div class="mockup-bar" style="height: 35%; background: var(--accent-primary);"></div>
+                    <div class="mockup-bar" style="height: 55%; background: var(--accent-primary);"></div>
+                    <div class="mockup-bar" style="height: 40%; background: var(--accent-primary);"></div>
+                    <div class="mockup-bar" style="height: 75%; background: var(--accent-secondary);"></div>
+                    <div class="mockup-bar" style="height: 95%; background: var(--accent-secondary);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card-content">
+              <span class="project-category" data-i18n="proj2_cat">DevOps &amp; Webhooks</span>
+              <h3 class="project-title" data-i18n="proj2_title">DevPulse SaaS Engine</h3>
+              <p class="project-description" data-i18n="proj2_desc">
+                Real-time API uptime health monitor and incident response dashboard with automated alerting webhooks, role-based controls, and metrics streaming.
+              </p>
+
+              <div class="project-tags">
+                <span class="project-tag">PHP 8.2</span>
+                <span class="project-tag">MySQL</span>
+                <span class="project-tag">REST APIs</span>
+                <span class="project-tag">WebSockets</span>
+              </div>
+
+              <div class="project-links">
+                <a href="#home" class="btn btn-outline btn-sm project-link-btn" title="Live Preview">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                  <span data-i18n="project_btn_demo">Live Demo</span>
+                </a>
+                <a href="https://github.com/ahmed-teha" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm project-link-btn" title="View Source Code">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span data-i18n="project_btn_github">GitHub</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project Card 3: CloudVault Asset Hub -->
+          <article class="project-card">
+            <div class="project-preview">
+              <div class="mockup-ui">
+                <div class="mockup-header">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mockup-body">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                    <div class="mockup-skeleton" style="height: 36px; border-radius: 4px; background: rgba(255,255,255,0.06);"></div>
+                    <div class="mockup-skeleton" style="height: 36px; border-radius: 4px; background: rgba(255,255,255,0.06);"></div>
+                  </div>
+                  <div class="mockup-skeleton" style="width: 70%; margin-top: 4px;"></div>
+                  <div class="mockup-skeleton" style="width: 50%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card-content">
+              <span class="project-category" data-i18n="proj3_cat">Cloud Storage UI</span>
+              <h3 class="project-title" data-i18n="proj3_title">CloudVault Media Hub</h3>
+              <p class="project-description" data-i18n="proj3_desc">
+                A drag-and-drop digital media manager with client-side image compression, tag-based faceted search, and encrypted shared link capabilities.
+              </p>
+
+              <div class="project-tags">
+                <span class="project-tag">HTML5</span>
+                <span class="project-tag">CSS Modules</span>
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Git</span>
+              </div>
+
+              <div class="project-links">
+                <a href="#home" class="btn btn-outline btn-sm project-link-btn" title="Live Preview">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                  <span data-i18n="project_btn_demo">Live Demo</span>
+                </a>
+                <a href="https://github.com/ahmed-teha" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm project-link-btn" title="View Source Code">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span data-i18n="project_btn_github">GitHub</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         Contact Section
+         ====================================================================== -->
+    <section id="contact" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" data-i18n="contact_tag">Get In Touch</span>
+          <h2 class="section-title" data-i18n="contact_title">Let's Build Something Great</h2>
+          <p class="section-subtitle" data-i18n="contact_subtitle">Have a project in mind, an open engineering role, or just want to chat about web technology? Reach out below.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left: Contact Details & Copy Action -->
+          <div class="contact-info">
+            <h3 class="contact-info-title" data-i18n="contact_info_h3">Let's talk about your next milestone.</h3>
+            <p class="contact-info-text" data-i18n="contact_info_p">
+              I'm always open to discussing new contract opportunities, product collaborations, or full-time front-end and full-stack positions. Feel free to send a message or connect on social channels.
+            </p>
+
+            <div class="contact-cards-list">
+              <!-- Direct Email with Copy & Gmail Options -->
+              <div class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+                <div class="contact-card-meta">
+                  <div class="contact-card-label" data-i18n="contact_direct_email">Direct Email</div>
+                  <a href="mailto:beyondimaginer@gmail.com" class="contact-card-value" id="emailText" style="color: var(--accent-primary); word-break: break-all; text-decoration: none;" title="Click to compose email">beyondimaginer@gmail.com</a>
+                  <div style="display: flex; gap: 0.85rem; margin-top: 0.35rem; font-size: 0.8rem;">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=beyondimaginer@gmail.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" data-i18n="open_in_gmail">
+                      <span>Open in Gmail</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                    </a>
+                  </div>
+                </div>
+                <button type="button" class="copy-btn" id="copyEmailBtn" title="Copy email address" aria-label="Copy Email">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  <span id="copyBtnText">Copy</span>
+                </button>
+              </div>
+
+              <!-- Telegram Contact Card -->
+              <div class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                </div>
+                <div class="contact-card-meta">
+                  <div class="contact-card-label" data-i18n="contact_telegram_label">Telegram</div>
+                  <a href="https://t.me/beyondimaginer32" target="_blank" rel="noopener noreferrer" class="contact-card-value" style="color: var(--accent-primary);">@beyondimaginer32</a>
+                </div>
+              </div>
+
+              <!-- Location & Timezone -->
+              <div class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="contact-card-meta">
+                  <div class="contact-card-label" data-i18n="contact_location_label">Location</div>
+                  <div class="contact-card-value" data-i18n="contact_location_val">Waliso, Oromia, Ethiopia (EAT / UTC+3)</div>
+                </div>
+              </div>
+
+              <!-- Social Links Row -->
+              <div class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </div>
+                <div class="contact-card-meta">
+                  <div class="contact-card-label" data-i18n="contact_social_label">Online Presence</div>
+                  <div style="display: flex; gap: 0.85rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                    <a href="https://github.com/ahmed-teha" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); font-weight: 600; font-size: 0.875rem;">GitHub</a>
+                    <span style="color: var(--border-subtle);">&bull;</span>
+                    <a href="https://t.me/beyondimaginer32" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); font-weight: 600; font-size: 0.875rem;">Telegram</a>
+                    <span style="color: var(--border-subtle);">&bull;</span>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); font-weight: 600; font-size: 0.875rem;">LinkedIn</a>
+                    <span style="color: var(--border-subtle);">&bull;</span>
+                    <a href="mailto:beyondimaginer@gmail.com" style="color: var(--accent-primary); font-weight: 600; font-size: 0.875rem;">Email</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Validated Contact Form -->
+          <div class="contact-form-card">
+            <form id="portfolioContactForm" class="contact-form" novalidate>
+              <!-- Name Input -->
+              <div class="form-group" id="nameGroup">
+                <label for="contactName" class="form-label" data-i18n="contact_label_name">Your Name</label>
+                <input type="text" id="contactName" name="name" class="form-input" placeholder="e.g. Sarah Jenkins" data-i18n-ph="contact_ph_name" required autocomplete="name">
+                <span class="form-error" id="nameError">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                  <span data-i18n="contact_err_name">Please enter your name (at least 2 characters).</span>
+                </span>
+              </div>
+
+              <!-- Email Input -->
+              <div class="form-group" id="emailGroup">
+                <label for="contactEmail" class="form-label" data-i18n="contact_label_email">Email Address</label>
+                <input type="email" id="contactEmail" name="email" class="form-input" placeholder="sarah@example.com" data-i18n-ph="contact_ph_email" required autocomplete="email">
+                <span class="form-error" id="emailError">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                  <span data-i18n="contact_err_email">Please enter a valid email address.</span>
+                </span>
+              </div>
+
+              <!-- Message Input -->
+              <div class="form-group" id="messageGroup">
+                <label for="contactMessage" class="form-label" data-i18n="contact_label_msg">Your Message</label>
+                <textarea id="contactMessage" name="message" class="form-textarea" placeholder="Tell me about your project, timeline, or inquiries..." data-i18n-ph="contact_ph_msg" required></textarea>
+                <span class="form-error" id="messageError">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                  <span data-i18n="contact_err_msg">Please provide a message with at least 10 characters.</span>
+                </span>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">
+                <span id="submitBtnText" data-i18n="contact_btn_send">Send Message</span>
+                <svg id="submitBtnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+              </button>
+
+              <!-- Success Notification Banner -->
+              <div id="formStatus" class="form-status" role="alert">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span id="formStatusText" data-i18n="contact_success">Thank you! Your message has been received. I'll get back to you shortly.</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white border border-slate-700 px-5 py-3 rounded-2xl shadow-2xl text-sm font-bold transition-all duration-300 opacity-0 translate-y-4 pointer-events-none flex items-center gap-2">
-    <span>Transaction logged successfully!</span>
-  </div>
+  <!-- ========================================================================
+       Footer
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="footer-logo">
+            <span class="nav-logo-icon" style="width:28px; height:28px; font-size:0.85rem;">&lt;/&gt;</span>
+            <span>Ahmed<span class="gradient-text">.dev</span></span>
+          </a>
+          <p class="footer-desc" data-i18n="footer_desc">
+            Full-stack developer focused on creating intuitive, fast, and accessible digital products.
+          </p>
+        </div>
 
-  </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#home" class="footer-link" data-i18n="nav_home">Home</a>
+          <a href="#about" class="footer-link" data-i18n="nav_about">About</a>
+          <a href="#skills" class="footer-link" data-i18n="nav_skills">Skills</a>
+          <a href="#projects" class="footer-link" data-i18n="nav_projects">Projects</a>
+          <a href="#contact" class="footer-link" data-i18n="nav_contact">Contact</a>
+        </nav>
+      </div>
 
-  <!-- APPLICATION JAVASCRIPT -->
-  <script src="app.js"></script>
+      <div class="footer-bottom">
+        <div>
+          &copy; <span id="currentYear">2026</span> Ahmed Taha. <span data-i18n="footer_rights">All rights reserved. Built with modern web standards.</span>
+        </div>
+        <button id="backToTopBtn" class="back-to-top" aria-label="Scroll back to top">
+          <span data-i18n="footer_back_top">Back to Top</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
 
+  <!-- ========================================================================
+       JavaScript Logic (i18n Trilingual Engine, Theme, Form & Typewriter)
+       ======================================================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Dynamic Year
+      const currentYearEl = document.getElementById('currentYear');
+      if (currentYearEl) {
+        currentYearEl.textContent = new Date().getFullYear();
+      }
+
+      // 2. Internationalization (i18n) Engine: English, Afaan Oromoo, Amharic
+      const translations = {
+        en: {
+          nav_home: "Home",
+          nav_about: "About",
+          nav_skills: "Skills",
+          nav_projects: "Projects",
+          nav_contact: "Contact",
+          hero_status: "Available for new projects & full-time roles",
+          hero_title: 'Crafting Scalable, High-Impact <span class="gradient-text">Web Experiences</span>',
+          hero_roles: [
+            'Full-Stack Web Developer',
+            'JavaScript & PHP Engineer',
+            'UI/UX Architecture Enthusiast',
+            'REST API & Database Specialist'
+          ],
+          hero_bio: "Hi, I'm <strong>Ahmed Taha</strong>. I specialize in building accessible, blazing-fast, and visually captivating web applications from architecture to deployment using modern JavaScript, PHP, and scalable database systems.",
+          hero_btn_projects: "View Projects",
+          hero_btn_contact: "Contact Me",
+          hero_connect: "Connect:",
+          hero_badge_code: "100%",
+          hero_badge_code_sub: "Clean Code & Tests",
+          hero_badge_exp: "5+ Years",
+          hero_badge_exp_sub: "Web Development",
+          about_tag: "About Me",
+          about_title: "Driven by Quality & User Experience",
+          about_subtitle: "Bridging the gap between creative visual design and robust software engineering.",
+          about_role: "Full-Stack Web Engineer",
+          about_loc: "Based in Waliso, Oromia, Ethiopia / Remote",
+          about_philo_1: "<strong>Performance Obsessed:</strong> Prioritizing sub-second loads, lean bundles, and 60 FPS interactions.",
+          about_philo_2: "<strong>Responsive & Accessible:</strong> Crafting semantic, WCAG-compliant designs for every device size.",
+          about_philo_3: "<strong>Maintainable Systems:</strong> Writing documented, tested, and scalable code that teams love to maintain.",
+          about_h3: "Turning complex logic into seamless digital products.",
+          about_p1: "I have spent over 5 years developing modern web applications, working with startups and established enterprises to translate intricate business needs into fluid interfaces. My experience covers everything from creating dynamic, interactive single-page front-ends to architecting reliable RESTful APIs and optimized database schemas.",
+          about_p2: "When I'm not writing code or analyzing web performance metrics, I contribute to open-source developer tooling and mentor aspiring developers in core web fundamentals.",
+          about_stat1_label: "Years Exp.",
+          about_stat2_label: "Projects Built",
+          about_stat3_label: "Satisfaction",
+          about_btn_work: "Let's Work Together",
+          skills_tag: "Tech Stack",
+          skills_title: "Skills & Expertise",
+          skills_subtitle: "A curated toolbox of modern front-end technologies, robust back-end frameworks, and developer workflows.",
+          skills_cat_frontend: "Front-End",
+          skills_cat_backend: "Back-End & Data",
+          skills_cat_tools: "Workflow & DevOps",
+          skill_level_advanced: "Advanced",
+          skill_level_proficient: "Proficient",
+          skill_level_intermediate: "Intermediate",
+          projects_tag: "Featured Work",
+          projects_title: "Selected Projects",
+          projects_subtitle: "Real-world applications built with clean architecture, responsive layouts, and performant backends.",
+          proj1_cat: "Full-Stack FinTech",
+          proj1_title: "AgriProfit Analytics",
+          proj1_desc: "A high-contrast farm financial tracker and annual profitability platform with enterprise margin calculations, multi-currency support, and offline-first persistence.",
+          proj2_cat: "DevOps & Webhooks",
+          proj2_title: "DevPulse SaaS Engine",
+          proj2_desc: "Real-time API uptime health monitor and incident response dashboard with automated alerting webhooks, role-based controls, and metrics streaming.",
+          proj3_cat: "Cloud Storage UI",
+          proj3_title: "CloudVault Media Hub",
+          proj3_desc: "A drag-and-drop digital media manager with client-side image compression, tag-based faceted search, and encrypted shared link capabilities.",
+          project_btn_demo: "Live Demo",
+          project_btn_github: "GitHub",
+          contact_tag: "Get In Touch",
+          contact_title: "Let's Build Something Great",
+          contact_subtitle: "Have a project in mind, an open engineering role, or just want to chat about web technology? Reach out below.",
+          contact_info_h3: "Let's talk about your next milestone.",
+          contact_info_p: "I'm always open to discussing new contract opportunities, product collaborations, or full-time front-end and full-stack positions. Feel free to send a message or connect on social channels.",
+          contact_direct_email: "Direct Email",
+          open_in_gmail: "Open in Gmail",
+          copied_email_toast: "Copied beyondimaginer@gmail.com to clipboard!",
+          contact_telegram_label: "Telegram",
+          contact_location_label: "Location",
+          contact_location_val: "Waliso, Oromia, Ethiopia (EAT / UTC+3)",
+          contact_social_label: "Online Presence",
+          contact_label_name: "Your Name",
+          contact_ph_name: "e.g. Sarah Jenkins",
+          contact_label_email: "Email Address",
+          contact_ph_email: "sarah@example.com",
+          contact_label_msg: "Your Message",
+          contact_ph_msg: "Tell me about your project, timeline, or inquiries...",
+          contact_btn_send: "Send Message",
+          contact_btn_sending: "Sending Message...",
+          contact_btn_sent: "Message Sent!",
+          contact_err_name: "Please enter your name (at least 2 characters).",
+          contact_err_email: "Please enter a valid email address.",
+          contact_err_msg: "Please provide a message with at least 10 characters.",
+          contact_success: "Thank you! Your message has been received. I'll get back to you shortly.",
+          footer_desc: "Full-stack developer focused on creating intuitive, fast, and accessible digital products.",
+          footer_rights: "All rights reserved. Built with modern web standards.",
+          footer_back_top: "Back to Top"
+        },
+        om: {
+          nav_home: "Fuula Duraa",
+          nav_about: "Waa'ee Koo",
+          nav_skills: "Dandeettii",
+          nav_projects: "Piroojektiiwwan",
+          nav_contact: "Qunnamtii",
+          hero_status: "Piroojektiiwwan haaraa fi hojii yeroo guutuuf qophiidha",
+          hero_title: 'Muuxannoo Weebii <span class="gradient-text">Guddaa fi Qulqullina Qabu</span> Uumuu',
+          hero_roles: [
+            'Misoonsaa Weebii Guutuu (Full-Stack)',
+            'Ogeessa JavaScript fi PHP',
+            'Jaallataa Dizaayinii UI/UX',
+            'Ogeessa REST API fi Kuusaa Deetaa'
+          ],
+          hero_bio: "Akkam, ani <strong>Ahmed Taha</strong> dha. Misoonsa weebii saffisaa, mijataa fi miidhagaa ta'e teeknooloojii ammayyaa JavaScript, PHP fi kuusaa deetaa gurguddoo fayyadamuun nan ijaara.",
+          hero_btn_projects: "Piroojektiiwwan Ilaali",
+          hero_btn_contact: "Na Qunnami",
+          hero_connect: "Qunnamtii:",
+          hero_badge_code: "100%",
+          hero_badge_code_sub: "Koodii Qulqulluu fi Qoratame",
+          hero_badge_exp: "Waggaa 5+",
+          hero_badge_exp_sub: "Misooma Weebii",
+          about_tag: "Waa'ee Koo",
+          about_title: "Qulqullinaa fi Muuxannoo Fayyadamaatiin Kan Geggeeffamu",
+          about_subtitle: "Dizaayinii miidhagaa fi misooma sooftiweerii cimaa walitti fiduu.",
+          about_role: "Misoonsaa Weebii Guutuu",
+          about_loc: "Walisoo, Oromiyaa, Itoophiyaa / Bakka Fagoo (Remote)",
+          about_philo_1: "<strong>Saffisa Olaanaa:</strong> Yeroo gabaabaatti banamuu fi sochiilee lallaafaa dursa kennuu.",
+          about_philo_2: "<strong>Mijaawaa fi Dhaqqabamaa:</strong> Meeshaalee hundaaf mijaawaa fi ulaagaalee addunyaa kan guute.",
+          about_philo_3: "<strong>Sirna Itti-fufiinsa Qabu:</strong> Koodii qulqulluu, qoratamee fi salphaatti guddatu barreessuu.",
+          about_h3: "Yaada walxaxaa gara oomisha dijitaalaa salphaatti jijjiiruu.",
+          about_p1: "Waggaa 5 oliif appilikeeshinoota weebii ammayyaa ijaaruu irratti hojjedheera. Fedhii daldalaa gara intarfeesii salphaatti fayyadamanitti jijjiiruu irratti dandeettii olaanaa qaba. Muuxannoon koo fuula fuulduraa (front-end) irraa kaasee hanga kuusaa deetaa fi REST API cimaa ijaaruutti bal'ata.",
+          about_p2: "Koodii barreessuu cinatti, piroojektiiwwan 'open-source' irratti nan hirmaadha, akkasumas misoonsitoota haaraa weebii irratti nan gorsa.",
+          about_stat1_label: "Muuxannoo Waggaa",
+          about_stat2_label: "Piroojektiiwwan",
+          about_stat3_label: "Itti-quufiinsa",
+          about_btn_work: "Hojii Waliin Haa Hojjennu",
+          skills_tag: "Teeknooloojiiwwan",
+          skills_title: "Dandeettii fi Ogummaa",
+          skills_subtitle: "Meeshaalee misooma fuulduraa (front-end), duubaa (back-end) fi dandeettiiwwan teeknikaa ammayyaa.",
+          skills_cat_frontend: "Misooma Fuulduraa (Front-End)",
+          skills_cat_backend: "Misooma Duubaa fi Deetaa",
+          skills_cat_tools: "Hojii fi DevOps",
+          skill_level_advanced: "Olaanaa",
+          skill_level_proficient: "Gaarii",
+          skill_level_intermediate: "Giddu-galeessa",
+          projects_tag: "Hojiiwwan Filataman",
+          projects_title: "Piroojektiiwwan Ijoo",
+          projects_subtitle: "Hojiiwwan qabatamaa dizaayinii mijaawaa fi teeknooloojii ammayyaatiin ijaaraman.",
+          proj1_cat: "Faayinaansii Qonnaa",
+          proj1_title: "AgriProfit Analytics",
+          proj1_desc: "Dhaabbata faayinaansii qonnaa fi bu'a qabeessummaa waggaa hordofu, herreega galii fi baasii, qarshii adda addaa fi toora intarneetiin ala hojjetu.",
+          proj2_cat: "Hordoffii API & Webhooks",
+          proj2_title: "DevPulse SaaS Engine",
+          proj2_desc: "Hordoffii fayyaa API yeroo qabatamaa, gabaasa hatattamaa, mirga fayyadamtootaa fi odeeffannoo kallattiin tamsaasu.",
+          proj3_cat: "Kuusaa Qabeenyaa",
+          proj3_title: "CloudVault Media Hub",
+          proj3_desc: "Kuusaa miidiyaa dijitaalaa harkisanii fe'an, qulqullina fakkii hir'isuun fi barbaacha saffisaa kan qabu.",
+          project_btn_demo: "Agarsiisa Kallattii",
+          project_btn_github: "Koodii (GitHub)",
+          contact_tag: "Na Qunnami",
+          contact_title: "Waan Guddaa Haa Uumnu",
+          contact_subtitle: "Piroojektii qabduu, yookiin waa'ee teeknooloojii mari'achuu barbaaddu? Asitti na qunnamaa.",
+          contact_info_h3: "Waa'ee karoora keessanii haa mari'annu.",
+          contact_info_p: "Carraawwan kontraataa haaraa, piroojektiiwwan waliinii, yookiin hojii yeroo guutuu irratti mari'achuuf qophiidha. Fuula kanaan na qunnamaa.",
+          contact_direct_email: "Imeelii Kallattii",
+          open_in_gmail: "Gmail'n Bani",
+          copied_email_toast: "Imeeliin (beyondimaginer@gmail.com) garagalfameera!",
+          contact_telegram_label: "Telegraamii",
+          contact_location_label: "Bakka",
+          contact_location_val: "Walisoo, Oromiyaa, Itoophiyaa (EAT / UTC+3)",
+          contact_social_label: "Toora Intarneetii",
+          contact_label_name: "Maqaa Keessan",
+          contact_ph_name: "fakkeenyaaf Sarah Jenkins",
+          contact_label_email: "Teessoo Imeelii",
+          contact_ph_email: "sarah@example.com",
+          contact_label_msg: "Ergaa Keessan",
+          contact_ph_msg: "Waa'ee piroojektii, yeroo, yookiin gaaffii keessanii naaf barreessaa...",
+          contact_btn_send: "Ergaa Ergi",
+          contact_btn_sending: "Ergamaa jira...",
+          contact_btn_sent: "Ergaan Ergameera!",
+          contact_err_name: "Maqaa keessan galchaa (yoo xiqqaate qubee 2).",
+          contact_err_email: "Teessoo imeelii sirrii galchaa.",
+          contact_err_msg: "Ergaa yoo xiqqaate qubee 10 qabu barreessaa.",
+          contact_success: "Galatoomaa! Ergaan keessan na ga'eera. Yeroo dhiyootti deebii isiniif nan kenna.",
+          footer_desc: "Misoonsaa weebii guutuu kan oomishaalee dijitaalaa saffisaa fi salphaatti fayyadaman uumu irratti xiyyeeffate.",
+          footer_rights: "Mirgi hunduu seeraan kan eegame. Ulaagaalee weebii ammayyaatiin ijaarame.",
+          footer_back_top: "Gara Oliitti"
+        },
+        am: {
+          nav_home: "ዋና ገጽ",
+          nav_about: "ስለ እኔ",
+          nav_skills: "ክህሎቶች",
+          nav_projects: "ፕሮጀክቶች",
+          nav_contact: "አግኙኝ",
+          hero_status: "ለአዳዲስ ፕሮጀክቶች እና ለሙሉ ጊዜ ሥራ ዝግጁ ነኝ",
+          hero_title: 'ፈጣን እና ዘመናዊ <span class="gradient-text">የድር መተግበሪያዎችን</span> መገንባት',
+          hero_roles: [
+            'የሙሉ ስታክ ድር አበልጻጊ (Full-Stack)',
+            'የJavaScript እና PHP ባለሙያ',
+            'የUI/UX ዲዛይን አፍቃሪ',
+            'የREST API እና የዳታቤዝ ስፔሻሊስት'
+          ],
+          hero_bio: "ሰላም፣ እኔ <strong>አህመድ ታሃ (Ahmed Taha)</strong> እባላለሁ። ፈጣን፣ ምቹ እና ማራኪ የሆኑ የድር መተግበሪያዎችን በዘመናዊ ጃቫስክሪፕት፣ ፒኤችፒ እና አስተማማኝ ዳታቤዞች በመጠቀም በማዘጋጀት እሰራለሁ።",
+          hero_btn_projects: "ፕሮጀክቶችን ይመልከቱ",
+          hero_btn_contact: "አግኙኝ",
+          hero_connect: "ይገናኙ፡",
+          hero_badge_code: "100%",
+          hero_badge_code_sub: "ጥራት ያለው ኮድ እና ፈተና",
+          hero_badge_exp: "5+ ዓመታት",
+          hero_badge_exp_sub: "የድር ልማት ልምድ",
+          about_tag: "ስለ እኔ",
+          about_title: "በጥራት እና በተጠቃሚ ምቾት የሚመራ",
+          about_subtitle: "የፈጠራ ዲዛይን እና ጠንካራ የሶፍትዌር ምህንድስናን በማጣመር።",
+          about_role: "የሙሉ ስታክ ድር መሃንዲስ",
+          about_loc: "ወሊሶ፣ ኦሮሚያ፣ ኢትዮጵያ / በርቀት (Remote)",
+          about_philo_1: "<strong>ፈጣን አፈጻጸም፡</strong> በሰከንዶች ውስጥ የሚከፈቱ እና ለስላሳ እንቅስቃሴ ያላቸው ገጾች።",
+          about_philo_2: "<strong>ምቹ እና ተደራሽ፡</strong> በሁሉም የስክሪን መጠኖች እና መሳሪያዎች ላይ ያለምንም እንከን የሚሰራ።",
+          about_philo_3: "<strong>አስተማማኝ ስርዓት፡</strong> ንጹህ፣ የተፈተሸ እና በቀላሉ የሚሻሻል ኮድ መጻፍ።",
+          about_h3: "የተወሳሰበን አሰራር ወደ ቀላል ዲጂታል ውጤቶች መቀየር።",
+          about_p1: "ላለፉት 5+ ዓመታት ዘመናዊ የድር መተግበሪያዎችን በመገንባት ሰርቻለሁ። የተወሳሰቡ የንግድ ፍላጎቶችን ወደ ቀላል እና ማራኪ ዲጂታል ውጤቶች የመቀየር ከፍተኛ ልምድ አለኝ። የስራ ልምዴ ማራኪ የተጠቃሚ ገጾችን ከመፍጠር ጀምሮ አስተማማኝ የጀርባ አሰራሮችን (APIs) እና ዳታቤዞችን እስከ ማደራጀት ይደርሳል።",
+          about_p2: "ኮድ ከመጻፍ በተጨማሪ በክፍት ምንጭ (open-source) ፕሮጀክቶች ላይ እሳተፋለሁ፣ እንዲሁም ጀማሪ አበልጻጊዎችን በድር መሰረታዊ እውቀቶች ላይ አሰለጥናለሁ።",
+          about_stat1_label: "የልምድ ዓመታት",
+          about_stat2_label: "ፕሮጀክቶች",
+          about_stat3_label: "የተጠቃሚ እርካታ",
+          about_btn_work: "አብረን እንስራ",
+          skills_tag: "ቴክኖሎጂዎች",
+          skills_title: "ክህሎቶች እና ሙያዊ ብቃት",
+          skills_subtitle: "ዘመናዊ የፊት-ለፊት (Front-end)፣ የጀርባ (Back-end) እና የሶፍትዌር መሳሪያዎች ስብስብ።",
+          skills_cat_frontend: "የፊት-ለፊት (Front-End)",
+          skills_cat_backend: "የጀርባ እና ዳታቤዝ",
+          skills_cat_tools: "የስራ ፍሰት እና DevOps",
+          skill_level_advanced: "ከፍተኛ",
+          skill_level_proficient: "ብቁ",
+          skill_level_intermediate: "መካከለኛ",
+          projects_tag: "የተመረጡ ስራዎች",
+          projects_title: "ዋና ዋና ፕሮጀክቶች",
+          projects_subtitle: "በጥራት እና በዘመናዊ አሰራር የተገነቡ እውነተኛ የድር መተግበሪያዎች።",
+          proj1_cat: "የግብርና ፋይናንስ",
+          proj1_title: "AgriProfit Analytics",
+          proj1_desc: "የእርሻ ፋይናንስን፣ አመታዊ ትርፋማነትን፣ የገቢና ወጪን ትንበያ ያለ ኢንተርኔት (offline) የሚከታተል ዘመናዊ መተግበሪያ።",
+          proj2_cat: "የኤፒአይ ክትትል",
+          proj2_title: "DevPulse SaaS Engine",
+          proj2_desc: "የኤፒአይ (API) ጤናን በቅጽበት የሚከታተል፣ አውቶማቲክ ማስጠንቀቂያዎችን የሚልክ እና ዝርዝር መረጃዎችን የሚያሳይ ስርዓት።",
+          proj3_cat: "የሚዲያ ማከማቻ",
+          proj3_title: "CloudVault Media Hub",
+          proj3_desc: "ፋይሎችን በቀላሉ በመጎተት የሚሰቅሉበት፣ ምስሎችን የሚያሳንሱበት እና ፈጣን ፍለጋ ያለው ዲጂታል ማከማቻ።",
+          project_btn_demo: "የቀጥታ ማሳያ",
+          project_btn_github: "ኮድ (GitHub)",
+          contact_tag: "ያግኙኝ",
+          contact_title: "አዲስ ነገር አብረን እንገንባ",
+          contact_subtitle: "የፕሮጀክት ሀሳብ ካለዎት፣ ወይም ስለ ቴክኖሎጂ መወያየት ከፈለጉ መልእክት ይላኩልኝ።",
+          contact_info_h3: "ስለ ቀጣይ እቅድዎ እንነጋገር።",
+          contact_info_p: "ለአዳዲስ የኮንትራት ስራዎች፣ የጋራ ፕሮጀክቶች ወይም የሙሉ ጊዜ የስራ እድሎች ክፍት ነኝ። በዚህ ቅጽ ወይም በማህበራዊ ገጾቼ መልእክት መላክ ይችላሉ።",
+          contact_direct_email: "ቀጥታ ኢሜይል",
+          open_in_gmail: "በGmail ይክፈቱ",
+          copied_email_toast: "ኢሜይሉ (beyondimaginer@gmail.com) ተገልብጧል!",
+          contact_telegram_label: "ቴሌግራም",
+          contact_location_label: "አድራሻ",
+          contact_location_val: "ወሊሶ፣ ኦሮሚያ፣ ኢትዮጵያ (EAT / UTC+3)",
+          contact_social_label: "ማህበራዊ ገጾች",
+          contact_label_name: "ሙሉ ስም",
+          contact_ph_name: "ለምሳሌ ሳራ ጀንኪንስ",
+          contact_label_email: "የኢሜይል አድራሻ",
+          contact_ph_email: "sarah@example.com",
+          contact_label_msg: "መልእክትዎ",
+          contact_ph_msg: "ስለ ፕሮጀክትዎ፣ የጊዜ ሰሌዳዎ ወይም ማንኛውንም ጥያቄ ይጻፉልኝ...",
+          contact_btn_send: "መልእክት ላክ",
+          contact_btn_sending: "በመላክ ላይ...",
+          contact_btn_sent: "መልእክቱ ተልኳል!",
+          contact_err_name: "እባክዎ ስምዎን ያስገቡ (ቢያንስ 2 ፊደላት)።",
+          contact_err_email: "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ።",
+          contact_err_msg: "እባክዎ ቢያንስ 10 ፊደላት ያለው መልእክት ይጻፉ።",
+          contact_success: "እናመሰግናለን! መልእክትዎ ደርሶኛል። በቅርቡ መልስ እሰጥዎታለሁ።",
+          footer_desc: "ፈጣን፣ ምቹ እና ዘመናዊ የዲጂታል ምርቶችን በመገንባት ላይ ያተኮረ የሙሉ ስታክ ድር አበልጻጊ።",
+          footer_rights: "መብቱ በህግ የተጠበቀ ነው። በዘመናዊ የድር ደረጃዎች የተሰራ።",
+          footer_back_top: "ወደ ላይ ይመለሱ"
+        }
+      };
+
+      let currentLang = 'en';
+      const langButtons = document.querySelectorAll('.lang-btn');
+
+      function setLanguage(lang) {
+        if (!translations[lang]) return;
+        currentLang = lang;
+        document.documentElement.setAttribute('lang', lang);
+        localStorage.setItem('portfolio-lang', lang);
+
+        // Update active class on buttons
+        langButtons.forEach(btn => {
+          if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        // Update text nodes
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (translations[lang][key] !== undefined) {
+            el.textContent = translations[lang][key];
+          }
+        });
+
+        // Update HTML nodes
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+          const key = el.getAttribute('data-i18n-html');
+          if (translations[lang][key] !== undefined) {
+            el.innerHTML = translations[lang][key];
+          }
+        });
+
+        // Update Placeholders
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+          const key = el.getAttribute('data-i18n-ph');
+          if (translations[lang][key] !== undefined) {
+            el.setAttribute('placeholder', translations[lang][key]);
+          }
+        });
+
+        // Reset typewriter with new language roles
+        roles = translations[lang].hero_roles;
+        roleIndex = 0;
+        charIndex = 0;
+        isDeleting = false;
+        if (typedTarget) {
+          typedTarget.textContent = '';
+        }
+      }
+
+      langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selected = btn.getAttribute('data-lang');
+          setLanguage(selected);
+        });
+      });
+
+      // 3. Dark / Light Mode Toggle with Persistence
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const sunIcon = themeToggleBtn.querySelector('.sun-icon');
+      const moonIcon = themeToggleBtn.querySelector('.moon-icon');
+      const htmlElement = document.documentElement;
+
+      function applyTheme(theme) {
+        htmlElement.setAttribute('data-theme', theme);
+        localStorage.setItem('portfolio-theme', theme);
+        if (theme === 'dark') {
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        } else {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        }
+      }
+
+      const savedTheme = localStorage.getItem('portfolio-theme');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      });
+
+      // 4. Mobile Navigation Toggle
+      const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+      const navMenu = document.getElementById('navMenu');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      mobileToggleBtn.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('open');
+        mobileToggleBtn.setAttribute('aria-expanded', isOpen);
+      });
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (navMenu.classList.contains('open')) {
+            navMenu.classList.remove('open');
+            mobileToggleBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      // 5. Hero Role Typing Effect
+      let roles = translations.en.hero_roles;
+      let roleIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typedTarget = document.getElementById('roleTyped');
+      const typingSpeed = 85;
+      const erasingSpeed = 40;
+      const pauseBetweenRoles = 2200;
+
+      function typeRole() {
+        if (!typedTarget || !roles || roles.length === 0) return;
+        const currentRole = roles[roleIndex] || '';
+        if (isDeleting) {
+          typedTarget.textContent = currentRole.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typedTarget.textContent = currentRole.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let currentDelay = isDeleting ? erasingSpeed : typingSpeed;
+
+        if (!isDeleting && charIndex === currentRole.length) {
+          currentDelay = pauseBetweenRoles;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          currentDelay = 400;
+        }
+
+        setTimeout(typeRole, currentDelay);
+      }
+      setTimeout(typeRole, 600);
+
+      // Initialize language from storage or default
+      const savedLang = localStorage.getItem('portfolio-lang');
+      if (savedLang && translations[savedLang]) {
+        setLanguage(savedLang);
+      } else {
+        setLanguage('en');
+      }
+
+      // 6. Active Section Indicator on Scroll using IntersectionObserver
+      const sections = document.querySelectorAll('section[id]');
+      const navObserverOptions = {
+        root: null,
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
+      };
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const currentId = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              if (link.getAttribute('href') === `#${currentId}`) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          }
+        });
+      }, navObserverOptions);
+
+      sections.forEach(sec => sectionObserver.observe(sec));
+
+      // 7. Back to Top Smooth Scroll
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+
+      // 8. Robust Copy Email & Toast Notification System
+      const copyEmailBtn = document.getElementById('copyEmailBtn');
+      const emailText = document.getElementById('emailText');
+
+      function copyTextReliably(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+          return Promise.resolve();
+        }
+      }
+
+      function fallbackCopy(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+        } catch (e) {
+          console.warn('execCommand copy fallback', e);
+        }
+        document.body.removeChild(textArea);
+      }
+
+      function showToast(msg) {
+        let toast = document.getElementById('globalToast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.id = 'globalToast';
+          toast.className = 'toast-notification';
+          document.body.appendChild(toast);
+        }
+        toast.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>${msg}</span>
+        `;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3200);
+      }
+
+      if (copyEmailBtn && emailText) {
+        copyEmailBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          const email = 'beyondimaginer@gmail.com';
+          await copyTextReliably(email);
+          const originalHTML = copyEmailBtn.innerHTML;
+          copyEmailBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span style="color:#10b981; font-weight:700;">Copied!</span>
+          `;
+          showToast(translations[currentLang].copied_email_toast || 'Copied beyondimaginer@gmail.com to clipboard!');
+          setTimeout(() => {
+            copyEmailBtn.innerHTML = originalHTML;
+          }, 2500);
+        });
+      }
+
+      // Add feedback and clipboard assistance to all mailto links
+      document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+        link.addEventListener('click', () => {
+          const email = 'beyondimaginer@gmail.com';
+          copyTextReliably(email);
+          showToast(translations[currentLang].copied_email_toast || 'Copied beyondimaginer@gmail.com to clipboard!');
+        });
+      });
+
+      // 9. Contact Form Client-Side Validation & Feedback
+      const contactForm = document.getElementById('portfolioContactForm');
+      const nameInput = document.getElementById('contactName');
+      const emailInput = document.getElementById('contactEmail');
+      const messageInput = document.getElementById('contactMessage');
+      const nameGroup = document.getElementById('nameGroup');
+      const emailGroup = document.getElementById('emailGroup');
+      const messageGroup = document.getElementById('messageGroup');
+      const formStatus = document.getElementById('formStatus');
+      const submitBtn = document.getElementById('submitBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const submitBtnIcon = document.getElementById('submitBtnIcon');
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function validateName() {
+        const val = nameInput.value.trim();
+        const isValid = val.length >= 2;
+        if (!isValid) {
+          nameGroup.classList.add('has-error');
+        } else {
+          nameGroup.classList.remove('has-error');
+        }
+        return isValid;
+      }
+
+      function validateEmail() {
+        const val = emailInput.value.trim();
+        const isValid = emailRegex.test(val);
+        if (!isValid) {
+          emailGroup.classList.add('has-error');
+        } else {
+          emailGroup.classList.remove('has-error');
+        }
+        return isValid;
+      }
+
+      function validateMessage() {
+        const val = messageInput.value.trim();
+        const isValid = val.length >= 10;
+        if (!isValid) {
+          messageGroup.classList.add('has-error');
+        } else {
+          messageGroup.classList.remove('has-error');
+        }
+        return isValid;
+      }
+
+      nameInput.addEventListener('blur', validateName);
+      nameInput.addEventListener('input', () => {
+        if (nameGroup.classList.contains('has-error')) validateName();
+      });
+
+      emailInput.addEventListener('blur', validateEmail);
+      emailInput.addEventListener('input', () => {
+        if (emailGroup.classList.contains('has-error')) validateEmail();
+      });
+
+      messageInput.addEventListener('blur', validateMessage);
+      messageInput.addEventListener('input', () => {
+        if (messageGroup.classList.contains('has-error')) validateMessage();
+      });
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isMessageValid = validateMessage();
+
+        if (isNameValid && isEmailValid && isMessageValid) {
+          submitBtn.disabled = true;
+          submitBtnText.textContent = translations[currentLang].contact_btn_sending;
+          submitBtnIcon.innerHTML = `
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="30" stroke-dashoffset="10">
+              <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/>
+            </circle>
+          `;
+
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtnText.textContent = translations[currentLang].contact_btn_sent;
+            submitBtnIcon.innerHTML = `
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            `;
+
+            formStatus.className = 'form-status success';
+            contactForm.reset();
+
+            setTimeout(() => {
+              submitBtnText.textContent = translations[currentLang].contact_btn_send;
+              submitBtnIcon.innerHTML = `<path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/>`;
+            }, 3500);
+          }, 700);
+        } else {
+          const firstError = contactForm.querySelector('.has-error');
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
