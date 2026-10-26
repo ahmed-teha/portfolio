@@ -5,9 +5,12 @@
 A personal developer portfolio built with Vanilla HTML5, CSS3, and modern JavaScript, featuring instant **Dark / Light mode** toggling and full **trilingual support** for **English (EN)**, **Afaan Oromoo (OM)**, and **Amharic (አማ)**.
 
 🌐 **GitHub Repository**: [https://github.com/ahmed-teha/portfolio](https://github.com/ahmed-teha/portfolio)  
-🚀 **Live Demo (GitHub Pages)**: [https://ahmed-teha.github.io/portfolio/](https://ahmed-teha.github.io/portfolio/)
+▲ **Live on Vercel**: [https://ahmed-teha-portfolio.vercel.app](https://ahmed-teha-portfolio.vercel.app)  
+🚀 **Live Mirror (GitHub Pages)**: [https://ahmed-teha.github.io/portfolio/](https://ahmed-teha.github.io/portfolio/)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fahmed-teha%2Fportfolio)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel&logoColor=white)](https://ahmed-teha-portfolio.vercel.app)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Active-22c55e?logo=github&logoColor=white)](https://ahmed-teha.github.io/portfolio/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
