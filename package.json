@@ -1,19 +1,10 @@
 {
-  "name": "agriprofit-dashboard",
+  "name": "ahmed-taha-portfolio",
   "version": "1.0.0",
+  "description": "Trilingual portfolio of Ahmed Taha - Full-Stack Web Developer",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "connect-pg-simple": "^10.0.0",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0",
-    "express-session": "^1.18.1",
-    "helmet": "^8.0.0",
-    "pg": "^8.13.1"
+    "build": "echo 'Static portfolio ready'",
+    "start": "node -e \"const http=require('http'),fs=require('fs');http.createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/html'});res.end(fs.readFileSync('index.html'))}).listen(3000,()=>console.log('http://localhost:3000'))\""
   }
 }

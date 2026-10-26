@@ -4,7 +4,10 @@
 
 A personal developer portfolio built with Vanilla HTML5, CSS3, and modern JavaScript, featuring instant **Dark / Light mode** toggling and full **trilingual support** for **English (EN)**, **Afaan Oromoo (OM)**, and **Amharic (አማ)**.
 
-🌐 **GitHub Repository**: [https://github.com/ahmed-teha/portfolio](https://github.com/ahmed-teha/portfolio)
+🌐 **GitHub Repository**: [https://github.com/ahmed-teha/portfolio](https://github.com/ahmed-teha/portfolio)  
+🚀 **Live Demo (GitHub Pages)**: [https://ahmed-teha.github.io/portfolio/](https://ahmed-teha.github.io/portfolio/)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fahmed-teha%2Fportfolio)
 
 ---
 
